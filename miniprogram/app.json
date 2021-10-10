@@ -1,0 +1,38 @@
+{
+  "usingComponents": {
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-image": "@vant/weapp/image/index"
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/mine/mine",
+    "pages/indexPages/repairingService/index/index"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "永州师范校园平台",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#626567",
+    "selectedColor": "#2eb4fc",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "主页",
+        "iconPath": "./images/home-unSelected.png",
+        "selectedIconPath": "./images/home-selected.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "个人中心",
+        "iconPath": "./images/mine-unSelected.png",
+        "selectedIconPath": "./images/mine-selected.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,25 @@
+<!--pages/mine/mine.wxml-->
+<view class="page">
+  <view class='userinfo'>
+    <view  class="userinfo-avatar">
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <view>
+      <open-data type="userNickName" lang="zh_CN" class="userinfo-nickname"></open-data>
+      <view>
+        <open-data type="userProvince" lang="zh_CN" ></open-data>
+        <open-data type="userCity" lang="zh_CN"></open-data>
+      </view>
+    </view>
+  </view>
+  <van-cell-group>
+    <van-cell title="常备地址" is-link/>
+    <van-cell title="我的快递" is-link/>
+  </van-cell-group>
+  <van-cell-group custom-class="cell-group-border">
+    <van-cell title="优选商城" value="待开放" is-link/>
+    <van-cell title="安全设置" is-link />
+    <van-cell title="帮助与反馈" is-link/>
+  </van-cell-group>
+</view>
+

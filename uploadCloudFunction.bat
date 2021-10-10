@@ -1,0 +1,1 @@
+"E:\微信web开发者工具\cli.bat" cloud functions deploy --e yzsf-database-6g3s2gge179f5313 --n quickstartFunctions --r --project "G:\yzsfWxApp" --report_first --report
