@@ -1,2 +1,69 @@
-<!--pages/indexPages/repairingService/index/index.wxml-->
-<text>pages/indexPages/repairingService/index/index.wxml</text>
+<wxs module="fixStatusImageSrc">
+  var get = function(status) {
+    switch (status) {
+      case 0:
+        return "../../../../images/fix-status-no.png";
+        break;
+      case 1:
+        return "../../../../images/fix-status-yes.png";
+        break;
+        case 2:
+          return "../../../../images/fix-status-wait.png";
+        break;
+      default:
+        break;
+    }
+  }
+  module.exports.get = get;
+</wxs>
+
+<view class="page">
+ <view class="page-dowmMenu">
+  <van-dropdown-menu active-color="#3399ff">
+    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+  </van-dropdown-menu>
+ </view>
+  <view class="page-content">
+    <!-- 下面的view给个循环 -->
+    <!-- 后期需要加个scroll-view组件用来支持上拉下拉刷新等操作 -->
+    <view class="content-card" wx:for="{{4}}" wx:for-index="index">
+      <view class="content-card-head" bindtap="moreMessageClick">
+        <image src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg" class="user-icon"></image>
+        <text class="user-name"> 用户用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字名字</text>
+        <image src="../../../../images/arrow.svg" class="moreMessage-icon"></image>
+      </view>
+      <view class="content-card-body">
+        <view >
+          <h6>电子产品报修</h6>
+          <h6 style="margin-left: 78px;">教学楼A206</h6>
+        </view>
+        <text class="fix-describe" space="nbsp">描述：你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你</text>
+        <!-- image给个循环 显示用户上传的图片 -->
+        <view class="fix-image-View">
+          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg">
+            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
+          </van-image>
+          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg">
+            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
+          </van-image>
+          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528346902123.jpg">
+            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
+          </van-image>
+          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528344091618.jpg">
+            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
+          </van-image>
+        </view>
+        <view class="fix-status-view">
+          <image src="{{fixStatusImageSrc.get(index)}}" mode="scaleToFill"></image>
+          <text class="fix-status-text">待解决</text>
+        </view>
+        <text style="font-weight: normal;color: #8f8f8f;font-size: 10px;margin-top: 4px;">2021-09-20</text>
+      </view>
+    </view>
+    <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
+      <image src="../../../../images/fix-add-icon.png"></image>
+    </view>
+
+  </view>
+</view>

@@ -7,7 +7,8 @@
   "pages": [
     "pages/index/index",
     "pages/mine/mine",
-    "pages/indexPages/repairingService/index/index"
+    "pages/indexPages/repairingService/index/index",
+    "pages/indexPages/repairingService/addNewFixMessagePage/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
