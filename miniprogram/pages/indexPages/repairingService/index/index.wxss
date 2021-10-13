@@ -153,8 +153,8 @@
   width: 80rpx;
   height: 80rpx;
   position: fixed;
-  top: 140rpx;
-  left: 50rpx;
+  bottom: 140rpx;
+  right: 80rpx;
   overflow: hidden;
   z-index: 100;
   padding: 16rpx 16rpx;
