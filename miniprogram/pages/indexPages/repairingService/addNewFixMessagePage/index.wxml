@@ -15,6 +15,8 @@
         </van-cell>
 
         <van-field value="{{ detailAddress }}" required clearable label="详细位置" icon="question" placeholder="能够找到对应的门牌/地点的详细位置" />
+
+        <van-field value="{{ message }}" label="报修描述" type="textarea" placeholder="请输入报修的内容/情况"  autosize />
       </van-cell-group>
     </view>
   </view>
