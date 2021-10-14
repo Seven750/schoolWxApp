@@ -31,7 +31,7 @@ component_1.VantComponent({
             value: true,
         }, titleWidth: {
             type: String,
-            value: '6.2em',
+            value: '5.5em',
         }, clearIcon: {
             type: String,
             value: 'clear',

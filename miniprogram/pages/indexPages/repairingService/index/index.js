@@ -143,7 +143,7 @@ Component({
       // })
     },
 
-    toAddFixMessagePage(e){
+    navigateToAddFixMessagePage(e){
       wx.navigateTo({
         url: '../addNewFixMessagePage/index',
       })

@@ -1,2 +1,27 @@
-<!--pages/indexPages/repairingService/addNewFixMessagePage/index.wxml-->
-<text>pages/indexPages/repairingService/addNewFixMessagePage/index.wxml</text>
+<view class="page">
+  <view class="content">
+    <view class="detail_input">
+      <van-cell-group>
+        <van-field value="{{ userName }}" required clearable label="联系人" icon="question-o" placeholder="报修人姓名" bind:click-icon="onClickIcon" />
+
+        <van-field value="{{ userPhone }}" required type="number" clearable label="联系方式" icon="question" placeholder="报修人电话" bind:click-icon="onClickIcon" />
+
+        <van-field value="{{ submitTime }}" label="报修时间"  readonly/>
+
+        <van-cell title="报修种类" value-class="cellPickerValue" title-class="cellPickerTitle" is-link model:value="{{fixType}}" arrow-direction="down" bindtap="showTypePicker">
+        </van-cell>
+
+        <van-cell title="报修楼栋" value-class="cellPickerValue" title-class="cellPickerTitle" is-link model:value="{{fixAddress}}" arrow-direction="down" bindtap="showAddressPicker">
+        </van-cell>
+
+        <van-field value="{{ detailAddress }}" required clearable label="详细位置" icon="question" placeholder="能够找到对应的门牌/地点的详细位置" />
+      </van-cell-group>
+    </view>
+  </view>
+
+  <!-- 底部保修种类选择器的弹出框 -->
+  <van-popup show="{{ isShowPicker }}" round position="bottom" custom-style="height: 40%" bind:close="onClose">
+    <van-picker columns="{{ columns }}" bind:change="{{pickerFunxtion}}" />
+  </van-popup>
+
+</view>

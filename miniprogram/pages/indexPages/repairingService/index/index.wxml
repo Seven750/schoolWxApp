@@ -61,7 +61,7 @@
         <text style="font-weight: normal;color: #8f8f8f;font-size: 10px;margin-top: 4px;">2021-09-20</text>
       </view>
     </view>
-    <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
+    <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" bindtap="navigateToAddFixMessagePage" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
       <image src="../../../../images/fix-add-icon.png"></image>
     </view>
 
