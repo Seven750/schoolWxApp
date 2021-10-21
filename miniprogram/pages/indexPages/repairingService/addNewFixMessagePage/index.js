@@ -1,16 +1,29 @@
+import Notify from '../../../../miniprogram_npm/@vant/weapp/notify/notify.js';
+import Dialog from '../../../../miniprogram_npm/@vant/weapp/dialog/dialog.js';
+
+var util = require('../../../../util/util.js');
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    columns: [],
-    isShowPicker:false,
+    columns: [],   //选择器的内容
+    isShowPicker:false,    //是否显示选择器
     fixType:"请选择",
     fixAddress:"请选择",
-    pickerFunxtion:"",
-    submitTime:"",
+    pickerFunxtion:"",       //选择器执行的函数
+    submitTime:"",            //当前页面生成时的时间
     userName:"",
-    userPhone:"",
+    userPhone:"",        //报修用户的手机号
+    detailAddress:"",    //详细位置
+    detailMessage:"",   //报修描述
+
+    files:[],   //上传到云开发的图片文件名称
+    localFiles:[],  //本地图片的地址
+
+    savestatus: false,  //保存按钮禁用  防止多次提交
+    dialogMessage:"",
+    dialogShow:false
   },
 
   /**
@@ -25,7 +38,7 @@ Page({
    */
   onReady: function () {
     this.setData({
-      submitTime:this.formatDateTime()
+      submitTime:util.datePattern("yyyy-MM-dd hh:mm:ss")
     })
   },
 
@@ -38,32 +51,16 @@ Page({
    onClickIcon:function () {
 
   },
-  // 时间格式转换
-  // 用new Date().toLocaleString( )也可以，但是有上午下午，不是24小时制
-  formatDateTime() { 
-    var date = new Date();
-    var y = date.getFullYear(); 
-    var m = date.getMonth() + 1; 
-    m = m < 10 ? ('0' + m) : m; 
-    var d = date.getDate(); 
-    d = d < 10 ? ('0' + d) : d; 
-    var h = date.getHours();
-    h = h < 10 ? ('0' + h) : h;
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    minute = minute < 10 ? ('0' + minute) : minute; 
-    second = second < 10 ? ('0' + second) : second; 
-    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
-   },
 
-  showTypePicker(){
+  showTypePicker(event){
     let columns = ['电子产品报修', '水电报修', '器材报修', '其他']
     this.setData({
       columns,
       pickerFunxtion:"onTypeChange",
-      isShowPicker:true
-      
+      isShowPicker:true,
+      fixType:"电子产品报修"
     })
+    this
   },
   onTypeChange(event) {
     const { picker, value, index } = event.detail;
@@ -77,7 +74,8 @@ Page({
     this.setData({
       columns,
       pickerFunxtion:"onAddressChange",
-      isShowPicker:true
+      isShowPicker:true,
+      fixAddress:"教学楼A"
     })
   },
 
@@ -92,6 +90,188 @@ Page({
     this.setData({
       isShowPicker:false
     })
-  }
+  },
 
+  chooseImages: function (event) {
+    var that = this;
+    const { file, index } = event.detail;
+    // 返回选定照片的本地文件路径列表
+    let newFiles=[]
+    let newLocalFiles = []
+    for(let i =0;i<file.length;i++)
+    {
+      let url = file[i].url;
+      let path = { url: url, name: "localFile" + i ,isImage: true}
+      newLocalFiles = newLocalFiles.concat(path)
+      let cloudPath = 'fixFiles/' + util.datePattern("yyyy-MM-dd") +'/fixImage' + url.replace(/[^0-9]/ig, "") + url.match(/\.[^.]+?$/);
+      console.log(cloudPath)
+      let json = { src: cloudPath, fileID: "" }
+      newFiles = newFiles.concat(json)
+    }
+    that.setData({
+      files:that.data.files.concat(newFiles),
+      localFiles:that.data.localFiles.concat(newLocalFiles)
+    });
+  },
+
+  deleteImages(event){
+    const {index,file} = event.detail
+
+    let newFiles = this.data.files
+    let newLocalFiles = this.data.localFiles
+
+    newFiles.splice(index, 1);
+    newLocalFiles.splice(index, 1);
+
+    //类似于java中的lambda表达式
+    this.setData({
+      files:newFiles,
+      localFiles:newLocalFiles
+      })
+  },
+  isPoneAvailable:function(phoneInput) {
+    if (phoneInput == "" || phoneInput == undefined) {
+      return false;
+    }
+    var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+    if (!myreg.test(phoneInput)) {
+        return false;
+    } else {
+        return true;
+    }
+  },
+
+  addFixMessageJudgment:function(){
+    if (this.data.userName == "" ||this.data.userName == undefined) {
+      Notify({ type: 'danger', message: '请输入联系人' });
+      return false;
+    }
+    if (!this.isPoneAvailable(this.data.userPhone)) {
+      Notify({ type: 'danger', message: '请输入正确的电话号码' });
+      return false;
+    }
+    if (this.data.fixType == "请选择") {
+      Notify({ type: 'danger', message: '请选择报修' });
+      return false;
+    }
+    if (this.data.fixAddress == "请选择") {
+      Notify({ type: 'danger', message: '请选择报修楼栋' });
+      return false;
+    }
+    if (this.data.detailAddress == "" ||this.data.detailAddress == undefined) {
+      Notify({ type: 'danger', message: '请输入详细位置' });
+      return false;
+    }
+    if (this.data.detailMessage == "" ||this.data.detailMessage == undefined) {
+      Notify({ type: 'danger', message: '请输入报修描述' });
+      return false;
+    }
+    return true
+  },
+
+  uploadFixMessages:function(){
+    const db = wx.cloud.database();
+    var that = this;
+    wx.showLoading({
+      title: '正在上传信息',
+    })
+    db.collection('fix_list').add({
+      data: {
+        userName:that.data.userName,
+        userPhone:that.data.userPhone,      //报修用户的手机号
+        submitTime: that.data.submitTime,
+        fixType: that.data.fixType,
+        fixAddress: that.data.fixAddress,
+        detailAddress:that.data.fixType,   //详细位置
+        detailMessage:that.data.fixType,  //报修描述
+        files: that.data.files,
+        fix_Status:"0",     //0 待修复  1 完成修复  2  推迟修复
+        fixCompleteTime:"",
+        fixCompletePerson:"",
+        fixCompletePerson_Phone:"",
+        fixCompleteFiles:[],   // 完成修复上传的图片
+      },
+      success: res => {
+        // 在返回结果中会包含新创建的记录的 _id 可以当作索引
+        that.setData({
+          counterId: res._id,
+          count: 1
+        })
+        wx.showToast({
+          title: '新增记录成功',
+        })
+        that.backBtnClick();
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
+      },
+      fail: err => {
+        that.setData({
+          dialogMessage: '新增报修失败，请检查网络',
+          dialogShow:true,
+          savestatus: true
+        })
+        console.error('[数据库] [新增记录] 失败：', err)
+      }
+    })
+  },
+
+  onAddFixMessagesClick:function (event) {
+    if (!this.addFixMessageJudgment()) {
+      return
+    }
+    var that = this;
+    this.setData({
+      savestatus:true
+    },()=>{
+      wx.showLoading({
+        title: '正在提交',
+        mask:true
+      })
+      const length = this.data.localFiles.length;
+      if (length == 0) {
+        that.uploadFixMessages();
+      }else{
+        wx.showLoading({
+          title: '正在上传图片',
+        })
+        //记录循环已经执行了的次数
+        let filestimes = 0
+        for (let j = 0; j < length; j++) {
+          const cloudPath = that.data.files[j].src;
+          const filePath = that.data.localFiles[j].url;
+          wx.cloud.uploadFile({
+            filePath,
+            cloudPath,
+            success: (result) => {
+              const fID = 'Files[' + j + '].fileID'
+              that.setData({
+                [fID]: res.fileID
+              })
+            },
+            fail: (res) => {
+              //上传文件失败
+              console.error('[上传第' + j + '文件] 失败：', res)
+              that.setData({
+                dialogMessage: '[上传第' + j + '图片] 失败,请检查网络',
+                dialogShow:true
+              })
+            },
+            complete: (res) => {
+              filestimes = filestimes + 1;
+              if (filestimes == length) {
+                that.uploadFixMessages();
+              }
+              else
+                return
+            },
+          })
+        }
+      }
+    })
+  },
+
+  backBtnClick:function (event) {
+    wx.navigateBack({
+      delta:1
+    })
+  }
 })

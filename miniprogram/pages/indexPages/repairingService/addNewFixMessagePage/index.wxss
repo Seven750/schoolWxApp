@@ -25,3 +25,21 @@
   color: #000000 !important;
   font-size: 16px !important;
 }
+
+.uploadFixImages{
+  background-color: #ffffff;
+}
+
+.footer_button{
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  position:fixed;
+  bottom:20px;
+  left:16px;
+  right:16px;
+}
+.footer_button .van-button{
+  margin-top: 4px;
+  width: 100%;
+}

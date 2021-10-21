@@ -2,7 +2,8 @@
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-image": "@vant/weapp/image/index"
+    "van-image": "@vant/weapp/image/index",
+    "van-notify": "@vant/weapp/notify/index"
   },
   "pages": [
     "pages/index/index",
