@@ -14,7 +14,22 @@ App({
         env: 'yzsf-database-6g3s2gge179f5313'
       })
     }
+    //初始化
+    this.globalData = {
+      // appid,
+      // openid,
+      // authorized,
+      // userInfo,
+      // userInfoUpdataTime
+    }
 
-    this.globalData = {}
+    let that = this
+    wx.cloud.callFunction({
+      name:"login"
+    }).then(res =>{
+      that.globalData.appid = res.result.appid;
+      that.globalData.openid = res.result.openid;
+      
+    })
   }
 })

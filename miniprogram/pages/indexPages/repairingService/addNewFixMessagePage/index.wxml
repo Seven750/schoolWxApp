@@ -20,7 +20,7 @@
 
         <van-cell title="照片上传" value="{{localFiles.length}}/4"/>
         <view class="uploadFixImages">
-          <van-uploader file-list="{{ localFiles }}" max-count="4" bind:after-read="chooseImages" bind:delete= "deleteImages" multiple="true" deletable="true" image-fit="aspectFit"/>
+          <van-uploader file-list="{{ localFiles }}" max-count="4" bind:after-read="chooseImages" bind:delete= "deleteImages" multiple="{{true}}" image-fit="aspectFit"/>
         </view>
       </van-cell-group>
     </view>

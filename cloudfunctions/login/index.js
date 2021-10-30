@@ -1,12 +1,10 @@
+// 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
-})
+cloud.init()
 
-// 获取openId云函数入口函数
+// 云函数入口函数
 exports.main = async (event, context) => {
-  // 获取基础信息
   const wxContext = cloud.getWXContext()
 
   return {

@@ -1,20 +1,38 @@
-<wxs module="fixStatusImageSrc">
-  var get = function(status) {
+<wxs module="fixStatusWordAndImage">
+  var getPicStatus = function(status) {
     switch (status) {
-      case 0:
+      case "0":
         return "../../../../images/fix-status-no.png";
         break;
-      case 1:
+      case "1":
         return "../../../../images/fix-status-yes.png";
         break;
-        case 2:
+        case "2":
           return "../../../../images/fix-status-wait.png";
         break;
       default:
         break;
     }
   }
-  module.exports.get = get;
+
+  var getWordsStatus = function(status) {
+    // console.log(status)
+    switch (status) {
+      case "0":
+        return "待解决";
+        break;
+      case "1":
+        return "已解决";
+        break;
+        case "2":
+          return "后续解决";
+        break;
+      default:
+        break;
+    }
+  }
+  module.exports.getPicStatus = getPicStatus;
+  module.exports.getWordsStatus=getWordsStatus;
 </wxs>
 
 <view class="page">
@@ -27,43 +45,43 @@
   <view class="page-content">
     <!-- 下面的view给个循环 -->
     <!-- 后期需要加个scroll-view组件用来支持上拉下拉刷新等操作 -->
-    <view class="content-card" wx:for="{{4}}" wx:for-index="index">
+    <view class="content-card" wx:for="{{fixList}}" wx:key="_id" wx:for-index="idx">
       <view class="content-card-head" bindtap="moreMessageClick">
-        <image src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg" class="user-icon"></image>
-        <text class="user-name"> 用户用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字用户名字名字</text>
+        <image src="{{item.userWXInfo.avatarUrl}}" class="user-icon"></image>
+        <text class="user-name"> {{item.userWXInfo.nickName}}</text>
         <image src="../../../../images/arrow.svg" class="moreMessage-icon"></image>
       </view>
       <view class="content-card-body">
         <view >
-          <h6>电子产品报修</h6>
-          <h6 style="margin-left: 78px;">教学楼A206</h6>
+          <h6>{{item.fixType}}</h6>
+          <h6 style="margin-left: 78px;">{{item.fixAddress}}-{{item.detailAddress}}</h6>
         </view>
-        <text class="fix-describe" space="nbsp">描述：你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你你</text>
+        <text class="fix-describe" space="nbsp">描述：{{item.detailMessage}}</text>
         <!-- image给个循环 显示用户上传的图片 -->
+          <!-- <van-uploader file-list="{{ item.files }}" max-count="4"  deletable= "{{false}}" image-fit="aspectFit" show-upload="{{true}}"/> -->
         <view class="fix-image-View">
-          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg">
+          <block wx:if="{{item.files.length > 0}}" wx:for="{{item.files}}" wx:for-item="itemPic" wx:key="fileID">
+            <van-image use-loading-slot fit="cover" lazy-load src="{{itemPic}}" bindtap="previewPic" data-src ="{{itemPic}}" data-fileid="{{idx}}" show-menu-by-longpress="{{true}}">
             <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
-          </van-image>
-          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528367846466.jpg">
-            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
-          </van-image>
-          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528346902123.jpg">
-            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
-          </van-image>
-          <van-image use-loading-slot fit="cover" lazy-load src="cloud://yzsf-database-6g3s2gge179f5313.797a-yzsf-database-6g3s2gge179f5313-1307595420/fixMessageImages/201210291528344091618.jpg">
-            <van-loading slot="loading" color="#1989fa" type="circular" size="20"/>
-          </van-image>
+            </van-image>
+          </block>
         </view>
         <view class="fix-status-view">
-          <image src="{{fixStatusImageSrc.get(index)}}" mode="scaleToFill"></image>
-          <text class="fix-status-text">待解决</text>
+          <image src="{{fixStatusWordAndImage.getPicStatus(item.fix_Status)}}" mode="scaleToFill"></image>
+          <text class="fix-status-text">{{fixStatusWordAndImage.getWordsStatus(item.fix_Status)}}</text>
         </view>
-        <text style="font-weight: normal;color: #8f8f8f;font-size: 10px;margin-top: 4px;">2021-09-20</text>
+        <text style="font-weight: normal;color: #8f8f8f;font-size: 10px;margin-top: 4px;">{{item.submitTime}}</text>
       </view>
     </view>
-    <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" bindtap="navigateToAddFixMessagePage" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
+    <!-- <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" bindtap="navigateToAddFixMessagePage" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
       <image src="../../../../images/fix-add-icon.png"></image>
-    </view>
-
+    </view> -->
+    
   </view>
+  <movable-area class="fix-movable-area" wx:if="{{isShow}}" style="width: {{SYSTEMINFO.windowWidth - 40}}px; height: {{SYSTEMINFO.windowHeight - 80}}px;">
+      <movable-view class="fix-Messages-addBtn" direction="all" bindtap="navigateToAddFixMessagePage" x="{{SYSTEMINFO.windowWidth - 80}}" y="{{SYSTEMINFO.windowHeight - 140}}" inertia="true" out-of-bounds="true" friction = "10">
+        <image src="../../../../images/fix-add-icon.png"></image>
+      </movable-view>
+  </movable-area>
 </view>
+

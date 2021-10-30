@@ -1,4 +1,81 @@
 
+const app = getApp()
+const globalData = app.globalData
+
+
+export function updateUserinfo(){
+  return new Promise((resolve,reject) =>{
+  var timeNow = this.datePattern("yyyy-MM-dd HH:mm:ss")
+  var timeOut = (this.getDaysBetween(globalData.userInfoUpdataTime,timeNow) > 7)
+  //如果授权了，数据库里有信息，并且时间没有超过七天，则返回
+  if (globalData.authorized && !timeOut) {
+    resolve("authorized && Not timeOut")
+    return
+  }
+  var that = this
+  const db = wx.cloud.database();
+  //如果没有记录的话，就新增
+  //如果时间太久了就更新
+  wx.getUserProfile({ 
+    desc: '用于显示用户资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+    success: (res) => {
+      console.log(res)
+      const {userInfo} = res
+      console.log(globalData.authorized)
+      if (!globalData.authorized) {
+        wx.showLoading({
+          title: '正在上传用户名字及头像',
+          mask:true
+        })
+        //如果没有授权,即列表当中没有该用户的数据，则添加
+        db.collection("userInfo_list").add({
+          data:{
+            userInfo:userInfo,
+            userInfoUpdataTime:timeNow,
+            openid:globalData.openid
+          }
+        }).then(res =>{
+          globalData.userInfo = userInfo
+          globalData.authorized = true
+          globalData.userInfoUpdataTime = that.datePattern("yyyy-MM-dd HH:mm:ss")
+          resolve(res)
+        }).catch(console.error)
+      }else if (timeOut){
+        wx.showLoading({
+          title: '正在更新用户名字及头像',
+          mask:true
+        })
+        //有记录并且时间已经超过七天了
+        db.collection("userInfo_list").where({
+          openid:globalData.openid
+        }).update({
+          data:{
+            userInfo:userInfo,
+            userInfoUpdataTime:that.datePattern("yyyy-MM-dd HH:mm:ss")
+          }
+        }).then(res =>{
+          globalData.userInfo = userInfo
+          globalData.authorized = true
+          globalData.userInfoUpdataTime = that.datePattern("yyyy-MM-dd HH:mm:ss")
+          resolve(res)
+        })
+      }
+    },
+    fail:(res) =>{
+      //用户拒绝授权的话，则不能发布
+      console.log(res)
+    }
+  })
+  })
+  
+}
+/**
+ * 将两个string类型的日期进行日期差值的比较
+ * 
+ * **/ 
+export function  getDaysBetween(startDate,endDate){
+  return (Date.parse(endDate) - Date.parse(startDate))/(1*24*60*60*1000);
+}
 /**
  * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
  * 可以用 1-2 个占位符 * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) * eg: * (new

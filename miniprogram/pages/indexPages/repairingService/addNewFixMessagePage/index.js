@@ -1,5 +1,6 @@
 import Notify from '../../../../miniprogram_npm/@vant/weapp/notify/notify.js';
-import Dialog from '../../../../miniprogram_npm/@vant/weapp/dialog/dialog.js';
+
+const globalData = getApp().globalData
 
 var util = require('../../../../util/util.js');
 Page({
@@ -104,7 +105,6 @@ Page({
       let path = { url: url, name: "localFile" + i ,isImage: true}
       newLocalFiles = newLocalFiles.concat(path)
       let cloudPath = 'fixFiles/' + util.datePattern("yyyy-MM-dd") +'/fixImage' + url.replace(/[^0-9]/ig, "") + url.match(/\.[^.]+?$/);
-      console.log(cloudPath)
       let json = { src: cloudPath, fileID: "" }
       newFiles = newFiles.concat(json)
     }
@@ -174,20 +174,27 @@ Page({
     var that = this;
     wx.showLoading({
       title: '正在上传信息',
+      mask:true
     })
+    let files = this.data.files.map(function(file) {
+      return file.fileID
+    })
+    console.log(files)
     db.collection('fix_list').add({
       data: {
         userName:that.data.userName,
         userPhone:that.data.userPhone,      //报修用户的手机号
+        userWXInfo:globalData.userInfo,
         submitTime: that.data.submitTime,
         fixType: that.data.fixType,
         fixAddress: that.data.fixAddress,
-        detailAddress:that.data.fixType,   //详细位置
-        detailMessage:that.data.fixType,  //报修描述
-        files: that.data.files,
+        detailAddress:that.data.detailAddress,   //详细位置
+        detailMessage:that.data.detailMessage,  //报修描述
+        files,
         fix_Status:"0",     //0 待修复  1 完成修复  2  推迟修复
         fixCompleteTime:"",
-        fixCompletePerson:"",
+        fixCompletePersonName:"",
+        fixCompletePersonWXInfo:"",
         fixCompletePerson_Phone:"",
         fixCompleteFiles:[],   // 完成修复上传的图片
       },
@@ -207,14 +214,15 @@ Page({
         that.setData({
           dialogMessage: '新增报修失败，请检查网络',
           dialogShow:true,
-          savestatus: true
+          savestatus: false
         })
+        wx.hideLoading()
         console.error('[数据库] [新增记录] 失败：', err)
       }
     })
   },
 
-  onAddFixMessagesClick:function (event) {
+  addFixMessage:function () {
     if (!this.addFixMessageJudgment()) {
       return
     }
@@ -222,16 +230,13 @@ Page({
     this.setData({
       savestatus:true
     },()=>{
-      wx.showLoading({
-        title: '正在提交',
-        mask:true
-      })
       const length = this.data.localFiles.length;
       if (length == 0) {
         that.uploadFixMessages();
       }else{
         wx.showLoading({
           title: '正在上传图片',
+          mask:true
         })
         //记录循环已经执行了的次数
         let filestimes = 0
@@ -241,8 +246,9 @@ Page({
           wx.cloud.uploadFile({
             filePath,
             cloudPath,
-            success: (result) => {
-              const fID = 'Files[' + j + '].fileID'
+            success: (res) => {
+              console.log(res)
+              const fID = 'files[' + j + '].fileID'
               that.setData({
                 [fID]: res.fileID
               })
@@ -266,6 +272,13 @@ Page({
           })
         }
       }
+    })
+  },
+
+  onAddFixMessagesClick:function (event) {
+    var that = this
+    util.updateUserinfo().then(res =>{
+      that.addFixMessage()
     })
   },
 
