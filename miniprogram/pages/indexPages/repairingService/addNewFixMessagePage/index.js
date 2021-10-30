@@ -39,7 +39,7 @@ Page({
    */
   onReady: function () {
     this.setData({
-      submitTime:util.datePattern("yyyy-MM-dd hh:mm:ss")
+      submitTime:util.datePattern("yyyy-MM-dd HH:mm:ss")
     })
   },
 
