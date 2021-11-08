@@ -154,6 +154,8 @@
   top: 0;
   left: 50px; 
   position: fixed;
+  /* 解决movable-area遮挡底层点击的问题 */
+  pointer-events: none;
 }
 
 .fix-Messages-addBtn {
