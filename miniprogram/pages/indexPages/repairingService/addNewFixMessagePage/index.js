@@ -12,7 +12,7 @@ Page({
     isShowPicker:false,    //是否显示选择器
     fixType:"请选择",
     fixAddress:"请选择",
-    fixTypeIndex:0,     //种类的枚举
+    fixTypeIndex:0,     //种类的枚举 [0代表全部  1'电子产品报修', 2'水电报修', 3'器材报修', 4'其他']
     pickerFunxtion:"",       //选择器执行的函数
     submitTime:"",            //当前页面生成时的时间
     userName:"",
@@ -194,6 +194,7 @@ Page({
         fixAddress: that.data.fixAddress,
         detailAddress:that.data.detailAddress,   //详细位置
         detailMessage:that.data.detailMessage,  //报修描述
+        fixTypeIndex:that.data.fixTypeIndex,
         files,
         fix_Status:0,     //0 待修复  1 完成修复  2  推迟修复
         fixCompleteTime:"",

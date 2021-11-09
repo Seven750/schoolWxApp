@@ -46,7 +46,7 @@
     <!-- 下面的view给个循环 -->
     <!-- 后期需要加个scroll-view组件用来支持上拉下拉刷新等操作 -->
     <view class="content-card" wx:for="{{fixList}}" wx:key="_id" wx:for-index="idx">
-      <view class="content-card-head" bindtap="moreMessageClick">
+      <view class="content-card-head" bindtap="moreMessageClick" id="{{idx}}">
         <image src="{{item.userWXInfo.avatarUrl}}" class="user-icon"></image>
         <text class="user-name"> {{item.userWXInfo.nickName}}</text>
         <image src="../../../../images/arrow.svg" class="moreMessage-icon"></image>

@@ -187,6 +187,15 @@ Page({
       urls: this.data.fixList[currentFileId].files // 需要预览的图片http链接列表
     })
   },
+
+  moreMessageClick:function (event) {
+    console.log(event)
+    const index = event.currentTarget.id
+    const id = this.data.fixList[index]._id
+    wx.navigateTo({
+      url: '../fixDetailPage/index?id=' + id,
+    })
+  },
   // addBtnMove:function(e) {
   //   // 下面的动画是在上一次移动超出边界执行了移动回弹动画之后，抹除掉动画里的偏移值，否则的话会在下一次移动的时候，这个偏移值会加载移动的图标上(此时图标的坐标是跟触摸的坐标一样的，但是就是有偏移值)
   //   if (this.data.isNeedAnimation) {
