@@ -1,13 +1,13 @@
 <wxs module="fixStatusWordAndImage">
   var getPicStatus = function(status) {
     switch (status) {
-      case "0":
+      case 0:
         return "../../../../images/fix-status-no.png";
         break;
-      case "1":
+      case 1:
         return "../../../../images/fix-status-yes.png";
         break;
-        case "2":
+        case 2:
           return "../../../../images/fix-status-wait.png";
         break;
       default:
@@ -18,13 +18,13 @@
   var getWordsStatus = function(status) {
     // console.log(status)
     switch (status) {
-      case "0":
+      case 0:
         return "待解决";
         break;
-      case "1":
+      case 1:
         return "已解决";
         break;
-        case "2":
+        case 2:
           return "后续解决";
         break;
       default:
@@ -38,8 +38,8 @@
 <view class="page">
  <view class="page-dowmMenu">
   <van-dropdown-menu active-color="#3399ff">
-    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" />
-    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="value1Change"/>
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="value2Change"/>
   </van-dropdown-menu>
  </view>
   <view class="page-content">

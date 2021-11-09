@@ -171,6 +171,7 @@
   padding: 16rpx 16rpx;
   background-color: #dbdbdb;
   border-radius: 50%;
+  pointer-events: auto;
 }
 
 .fix-Messages-addBtn image {

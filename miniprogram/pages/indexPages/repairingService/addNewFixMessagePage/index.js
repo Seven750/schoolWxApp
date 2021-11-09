@@ -12,6 +12,7 @@ Page({
     isShowPicker:false,    //是否显示选择器
     fixType:"请选择",
     fixAddress:"请选择",
+    fixTypeIndex:0,     //种类的枚举
     pickerFunxtion:"",       //选择器执行的函数
     submitTime:"",            //当前页面生成时的时间
     userName:"",
@@ -59,14 +60,17 @@ Page({
       columns,
       pickerFunxtion:"onTypeChange",
       isShowPicker:true,
-      fixType:"电子产品报修"
+      fixType:"电子产品报修",
+      fixTypeIndex:1
     })
     this
   },
   onTypeChange(event) {
     const { picker, value, index } = event.detail;
+    console.log(index)
     this.setData({
-      fixType:value
+      fixType:value,
+      fixTypeIndex:index + 1
     })
   },
 
@@ -191,7 +195,7 @@ Page({
         detailAddress:that.data.detailAddress,   //详细位置
         detailMessage:that.data.detailMessage,  //报修描述
         files,
-        fix_Status:"0",     //0 待修复  1 完成修复  2  推迟修复
+        fix_Status:0,     //0 待修复  1 完成修复  2  推迟修复
         fixCompleteTime:"",
         fixCompletePersonName:"",
         fixCompletePersonWXInfo:"",

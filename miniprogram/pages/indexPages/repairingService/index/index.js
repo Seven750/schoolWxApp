@@ -15,24 +15,23 @@ Page({
       { text: '全部报修', value: 0 },
       { text: '电子产品报修', value: 1 },
       { text: '水电报修', value: 2 },
-      { text: '器材报修', value: 2 },
+      { text: '器材报修', value: 3 },
       { text: '其他报修', value: 4 },
     ],
     option2: [
-      { text: '暂未维修', value: 'a' },
-      { text: '已维修', value: 'b' },
+      { text: '暂未维修', value: 0 },
+      { text: '已维修', value: 1 },
     ],
     value1: 0,
-    value2: 'a',
-    fix_Status:0,
+    value2: 0,
 
-    pos:{},
-    moveX:0,
-    moveY:0,
-    animationData: {},
-    animation: {},
-    isNeedAnimation:false,
-    SYSTEMINFO: ''
+    // pos:{},
+    // moveX:0,
+    // moveY:0,
+    // animationData: {},
+    // animation: {},
+    // isNeedAnimation:false,
+    // SYSTEMINFO: ''
   },
 
   /**
@@ -52,7 +51,9 @@ Page({
       name:"searchDatabaseByList",
       data:{
         listName:"fix_list",
-        searchLimit:{}
+        searchLimit:{
+          fix_Status:that.data.value2
+        }
       }
     }).then(res =>{
       that.setData({
@@ -66,9 +67,9 @@ Page({
    */
   onReady: function () {
     let that = this
-    this.setData({
-      isShow:true
-    })
+    // this.setData({
+    //   isShow:true
+    // })
     // var animation = wx.createAnimation({
     //   timingFunction: 'ease-in-out',
     // })
@@ -116,21 +117,47 @@ Page({
     
   },
 
-  getWordsStatus:function(status) {
-    switch (status) {
-      case 0:
-        return "待解决";
-        break;
-      case 1:
-        return "已解决";
-        break;
-        case 2:
-          return "后续解决";
-        break;
-      default:
-        break;
-    }
-  },    
+  value1Change :function (event) {
+    const {detail} = event;
+    console.log(detail)
+    //获取列表信息
+    let that = this;
+    let value2 = this.data.value2
+    var obj = detail != 0 ? {fixTypeIndex:detail,fix_Status:value2} : {fix_Status:value2} ;
+    wx.cloud.callFunction({
+      name:"searchDatabaseByList",
+      data:{
+        listName:"fix_list",
+        searchLimit:obj
+      }
+    }).then(res =>{
+      that.setData({
+        fixList:res.result.data
+      })
+    })
+  },
+
+  value2Change:function (event) {
+    const {detail} = event;
+    console.log(detail)
+    //获取列表信息
+    let that = this;
+    let value1 = this.data.value1
+    var obj = value1 != 0 ? {fixTypeIndex:value1,fix_Status:detail} : {fix_Status:detail} ;
+    wx.cloud.callFunction({
+      name:"searchDatabaseByList",
+      data:{
+        listName:"fix_list",
+        searchLimit:obj
+      }
+    }).then(res =>{
+      that.setData({
+        fixList:res.result.data,
+        value2:detail
+      })
+    })
+  },
+
   //预览图片，放大预览
   previewPic:function(event) {
     let currentUrl = event.currentTarget.dataset.src
