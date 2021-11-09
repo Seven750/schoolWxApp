@@ -31,7 +31,7 @@ Page({
     // animationData: {},
     // animation: {},
     // isNeedAnimation:false,
-    // SYSTEMINFO: ''
+    SYSTEMINFO: ''
   },
 
   /**
@@ -67,9 +67,9 @@ Page({
    */
   onReady: function () {
     let that = this
-    // this.setData({
-    //   isShow:true
-    // })
+    this.setData({
+      isShow:true
+    })
     // var animation = wx.createAnimation({
     //   timingFunction: 'ease-in-out',
     // })
@@ -100,7 +100,28 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    let value1 = this.data.value1;
+    let value2 = this.data.value2;
+    var obj = value1 != 0 ? {fixTypeIndex:value1,fix_Status:value2} : {fix_Status:value2} ;
+    let that = this;
+    wx.cloud.callFunction({
+      name:"searchDatabaseByList",
+      data:{
+        listName:"fix_list",
+        searchLimit:obj
+      }
+    }).then(res =>{
+      that.setData({
+        fixList:res.result.data
+      })
+      wx.stopPullDownRefresh({
+        success: (res) => {
+          wx.showToast({
+            title: '刷新成功',
+          })
+        },
+      })
+    })
   },
 
   /**
@@ -119,7 +140,6 @@ Page({
 
   value1Change :function (event) {
     const {detail} = event;
-    console.log(detail)
     //获取列表信息
     let that = this;
     let value2 = this.data.value2
@@ -132,14 +152,14 @@ Page({
       }
     }).then(res =>{
       that.setData({
-        fixList:res.result.data
+        fixList:res.result.data,
+        value1:detail
       })
     })
   },
 
   value2Change:function (event) {
     const {detail} = event;
-    console.log(detail)
     //获取列表信息
     let that = this;
     let value1 = this.data.value1
