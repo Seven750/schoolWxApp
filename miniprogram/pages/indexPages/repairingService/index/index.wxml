@@ -52,9 +52,9 @@
         <image src="../../../../images/arrow.svg" class="moreMessage-icon"></image>
       </view>
       <view class="content-card-body">
-        <view >
-          <h6>{{item.fixType}}</h6>
-          <h6 style="margin-left: 78px;">{{item.fixAddress}}-{{item.detailAddress}}</h6>
+        <view style="flex-direction: row; position: relative; display: flex">
+          <h6 style="width: 50%;">{{item.fixType}}</h6>
+          <h6 style="width: 50%;">{{item.fixAddress}}-{{item.detailAddress}}</h6>
         </view>
         <text class="fix-describe" space="nbsp">描述：{{item.detailMessage}}</text>
         <!-- image给个循环 显示用户上传的图片 -->
@@ -66,11 +66,13 @@
             </van-image>
           </block>
         </view>
-        <view class="fix-status-view">
-          <image src="{{fixStatusWordAndImage.getPicStatus(item.fix_Status)}}" mode="scaleToFill"></image>
-          <text class="fix-status-text">{{fixStatusWordAndImage.getWordsStatus(item.fix_Status)}}</text>
+        <view style="flex-direction: row; position: relative; display: flex">
+          <text style="width: 50%; font-weight: normal; color: #8f8f8f; font-size: 10px;margin: auto 0px;">{{item.submitTime}}</text>
+          <view class="fix-status-view">
+            <image src="{{fixStatusWordAndImage.getPicStatus(item.fix_Status)}}" mode="scaleToFill"></image>
+            <text class="fix-status-text">{{fixStatusWordAndImage.getWordsStatus(item.fix_Status)}}</text>
+          </view>
         </view>
-        <text style="font-weight: normal;color: #8f8f8f;font-size: 10px;margin-top: 4px;">{{item.submitTime}}</text>
       </view>
     </view>
     <!-- <view class="fix-Messages-addBtn" wx:if="{{isShow}}" animation="{{animationData}}" catchtouchmove='addBtnMove' catchtouchend="addBtnTouchEnd" bindtap="navigateToAddFixMessagePage" style='top:{{pos.top}}px;left:{{pos.left}}px;' id="the-id">
