@@ -43,7 +43,8 @@
     <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="value2Change"/>
   </van-dropdown-menu>
  </view>
-  <view class="page-content">
+ <van-empty description="无内容" wx:if="{{isEmptyShow}}"/>
+  <view class="page-content" wx:if="{{!isEmptyShow}}">
     <!-- 下面的view给个循环 -->
     <!-- 后期需要加个scroll-view组件用来支持上拉下拉刷新等操作 -->
     <view class="content-card" wx:for="{{fixList}}" wx:key="_id" wx:for-index="idx">

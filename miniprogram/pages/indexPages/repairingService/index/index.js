@@ -10,7 +10,7 @@ Page({
     isShow:false,
 
     fixList:[],
-
+    isEmptyShow:true,
     option1: [
       { text: '全部报修', value: 0 },
       { text: '电子产品报修', value: 1 },
@@ -56,6 +56,8 @@ Page({
         }
       }
     }).then(res =>{
+      console.log(res)
+      that.judgeEmptyShow(res.result.data)
       that.setData({
         fixList:res.result.data
       })
@@ -111,6 +113,7 @@ Page({
         searchLimit:obj
       }
     }).then(res =>{
+      that.judgeEmptyShow(res.result.data)
       that.setData({
         fixList:res.result.data
       })
@@ -151,6 +154,7 @@ Page({
         searchLimit:obj
       }
     }).then(res =>{
+      that.judgeEmptyShow(res.result.data)
       that.setData({
         fixList:res.result.data,
         value1:detail
@@ -171,6 +175,7 @@ Page({
         searchLimit:obj
       }
     }).then(res =>{
+      that.judgeEmptyShow(res.result.data)
       that.setData({
         fixList:res.result.data,
         value2:detail
@@ -294,6 +299,12 @@ Page({
   navigateToAddFixMessagePage:function(e){
     wx.navigateTo({
       url: '../addNewFixMessagePage/index',
+    })
+  },
+
+  judgeEmptyShow:function (list) {
+    this.setData({
+      isEmptyShow:list.length > 0 ? false :true
     })
   }
 
