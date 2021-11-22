@@ -28,6 +28,8 @@
 
 .uploadFixImages{
   background-color: #ffffff;
+  display: flex;
+  padding-left: 12px;
 }
 
 .footer_button{

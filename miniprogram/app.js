@@ -19,8 +19,9 @@ App({
       // appid,
       // openid,
       // authorized,
-      // userInfo,
+      // userWXInfo,
       // userInfoUpdataTime
+      //that.globalData.management  是否为管理员
     }
 
     let that = this
@@ -29,7 +30,26 @@ App({
     }).then(res =>{
       that.globalData.appid = res.result.appid;
       that.globalData.openid = res.result.openid;
-      
+      //查询该openid是否为管理人员
+
+      wx.cloud.callFunction({
+        name:"searchDatabaseByList",
+        data:{
+          listName:"management_list",
+          searchLimit:{
+            _openid:res.result.openid
+          }
+        }
+      }).then(res =>{
+        if (res.result.data.length > 0) {
+          const {managerName,managerPhone} = res.result.data[0]
+          that.globalData.management = true;
+          that.globalData.managerName = managerName;
+          that.globalData.managerPhone = managerPhone;
+        }else{
+          that.globalData.management = false;
+        }
+      })
     })
   }
 })

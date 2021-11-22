@@ -189,7 +189,6 @@ Page({
   },
 
   moreMessageClick:function (event) {
-    console.log(event)
     const index = event.currentTarget.id
     const id = this.data.fixList[index]._id
     wx.navigateTo({

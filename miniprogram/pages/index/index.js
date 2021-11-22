@@ -72,7 +72,7 @@ Page({
       var dataList = res.result.data
       if (dataList.length > 0) {
         //说明这个在数据库里面是有信息的，已经授权过
-        app.globalData.userInfo = dataList[0].userInfo
+        app.globalData.userWXInfo = dataList[0].userInfo
         app.globalData.authorized = true
         app.globalData.userInfoUpdataTime = dataList[0].userInfoUpdataTime
       } else {

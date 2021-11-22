@@ -67,7 +67,6 @@ Page({
   },
   onTypeChange(event) {
     const { picker, value, index } = event.detail;
-    console.log(index)
     this.setData({
       fixType:value,
       fixTypeIndex:index + 1
@@ -183,7 +182,6 @@ Page({
     let files = this.data.files.map(function(file) {
       return file.fileID
     })
-    console.log(files)
     db.collection('fix_list').add({
       data: {
         userName:that.data.userName,
@@ -202,13 +200,15 @@ Page({
         fixCompletePersonWXInfo:"",
         fixCompletePerson_Phone:"",
         fixCompleteFiles:[],   // 完成修复上传的图片
+        fixAccepted:false,   //维修人员是否接单
+        fixReason:"",    //问题原因
       },
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id 可以当作索引
-        that.setData({
-          counterId: res._id,
-          count: 1
-        })
+        // that.setData({
+        //   counterId: res._id,
+          // count: 1
+        // })
         wx.showToast({
           title: '新增记录成功',
         })
@@ -252,7 +252,6 @@ Page({
             filePath,
             cloudPath,
             success: (res) => {
-              console.log(res)
               const fID = 'files[' + j + '].fileID'
               that.setData({
                 [fID]: res.fileID

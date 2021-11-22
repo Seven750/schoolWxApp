@@ -1,0 +1,35 @@
+
+  var getPicStatus = function(status) {
+    switch (status) {
+      case 0:
+        return "../../../../images/fix-status-no.png";
+        break;
+      case 1:
+        return "../../../../images/fix-status-yes.png";
+        break;
+        case 2:
+          return "../../../../images/fix-status-wait.png";
+        break;
+      default:
+        break;
+    }
+  }
+
+  var getWordsStatus = function(status) {
+    // console.log(status)
+    switch (status) {
+      case 0:
+        return "待解决";
+        break;
+      case 1:
+        return "已解决";
+        break;
+        case 2:
+          return "后续解决";
+        break;
+      default:
+        break;
+    }
+  }
+  module.exports.getPicStatus = getPicStatus;
+  module.exports.getWordsStatus=getWordsStatus;

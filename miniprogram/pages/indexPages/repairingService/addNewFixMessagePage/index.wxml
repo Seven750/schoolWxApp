@@ -18,9 +18,9 @@
 
         <van-field model:value="{{ detailMessage }}"  required label="报修描述" type="textarea" placeholder="请输入报修的内容/情况"  autosize />
 
-        <van-cell title="照片上传" value="{{localFiles.length}}/4"/>
+        <van-cell title="照片上传" value="{{localFiles.length}}/4" title-style="color:#646566" border="{{false}}"/>
         <view class="uploadFixImages">
-          <van-uploader file-list="{{ localFiles }}" max-count="4" bind:after-read="chooseImages" bind:delete= "deleteImages" multiple="{{true}}" image-fit="aspectFit"/>
+          <van-uploader style="margin: auto 3px auto auto;" file-list="{{ localFiles }}" max-count="4" bind:after-read="chooseImages" bind:delete= "deleteImages" multiple="{{true}}" image-fit="aspectFit"/>
         </view>
       </van-cell-group>
     </view>

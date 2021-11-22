@@ -19,9 +19,7 @@ export function updateUserinfo(){
   wx.getUserProfile({ 
     desc: '用于显示用户资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
     success: (res) => {
-      console.log(res)
       const {userInfo} = res
-      console.log(globalData.authorized)
       if (!globalData.authorized) {
         wx.showLoading({
           title: '正在上传用户名字及头像',
@@ -35,7 +33,7 @@ export function updateUserinfo(){
             openid:globalData.openid
           }
         }).then(res =>{
-          globalData.userInfo = userInfo
+          globalData.userWXInfo = userInfo
           globalData.authorized = true
           globalData.userInfoUpdataTime = that.datePattern("yyyy-MM-dd HH:mm:ss")
           resolve(res)
