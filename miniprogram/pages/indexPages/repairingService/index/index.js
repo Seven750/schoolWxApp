@@ -10,7 +10,7 @@ Page({
     isShow:false,
 
     fixList:[],
-    isEmptyShow:true,
+    isEmptyShow:false,
     option1: [
       { text: '全部报修', value: 0 },
       { text: '电子产品报修', value: 1 },
@@ -39,6 +39,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this
+    wx.showLoading({
+      title: '数据加载中',
+    })
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -58,8 +61,8 @@ Page({
     }).then(res =>{
       console.log(res)
       that.judgeEmptyShow(res.result.data)
-      that.setData({
-        fixList:res.result.data
+      wx.hideLoading({
+        success: (res) => {},
       })
     })
   },
@@ -114,9 +117,6 @@ Page({
       }
     }).then(res =>{
       that.judgeEmptyShow(res.result.data)
-      that.setData({
-        fixList:res.result.data
-      })
       wx.stopPullDownRefresh({
         success: (res) => {
           wx.showToast({
@@ -143,6 +143,9 @@ Page({
 
   value1Change :function (event) {
     const {detail} = event;
+    wx.showLoading({
+      title: '数据加载中',
+    })
     //获取列表信息
     let that = this;
     let value2 = this.data.value2
@@ -155,8 +158,10 @@ Page({
       }
     }).then(res =>{
       that.judgeEmptyShow(res.result.data)
+      wx.hideLoading({
+        success: (res) => {},
+      })
       that.setData({
-        fixList:res.result.data,
         value1:detail
       })
     })
@@ -164,6 +169,9 @@ Page({
 
   value2Change:function (event) {
     const {detail} = event;
+    wx.showLoading({
+      title: '数据加载中',
+    })
     //获取列表信息
     let that = this;
     let value1 = this.data.value1
@@ -176,8 +184,10 @@ Page({
       }
     }).then(res =>{
       that.judgeEmptyShow(res.result.data)
+      wx.hideLoading({
+        success: (res) => {},
+      })
       that.setData({
-        fixList:res.result.data,
         value2:detail
       })
     })
@@ -304,8 +314,8 @@ Page({
 
   judgeEmptyShow:function (list) {
     this.setData({
+      fixList:list,
       isEmptyShow:list.length > 0 ? false :true
     })
   }
-
 })
