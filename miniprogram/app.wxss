@@ -4,6 +4,7 @@
   flex-direction: column;
   box-sizing: border-box;
   justify-content: flex-start;
+  height: 100%;
 } 
 
 button {
@@ -23,6 +24,7 @@ button::after{
 
 page {
   background: #f6f6f6;
+  height: 100%;
   display: flex;
   /* 指定了内部元素是如何在 flex 容器中布局  row是横着  colum是竖着 */
   flex-direction: column;

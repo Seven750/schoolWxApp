@@ -1,8 +1,8 @@
 <!--index.wxml-->
 <view class="page">
-  <view class="view-search">
+  <!-- <view class="view-search">
     <van-search value="{{ value }}" placeholder="请输入搜索关键词" />
-  </view>
+  </view> -->
   <view class="page-section page-section-spacing" style="height:{{swiperHeight}};">
     <swiper style="height:{{swiperHeight}};" indicator-dots="{{indicatorDots}}"
       autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="{{circular}}">

@@ -10,10 +10,11 @@
     "pages/mine/mine",
     "pages/indexPages/repairingService/index/index",
     "pages/indexPages/repairingService/addNewFixMessagePage/index",
-    "pages/indexPages/repairingService/fixDetailPage/index"
+    "pages/indexPages/repairingService/fixDetailPage/index",
+    "pages/indexPages/reservationService/index/index"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#ffffff",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTitleText": "永州师范校园平台",

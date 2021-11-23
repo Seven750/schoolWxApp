@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="page_notice">
+    <view style="margin: auto; margin-top: 4px;">
+      <text style="font-size: 14px;color: cornflowerblue;">公告</text>
+    </view>
+    <view style="height: 100%;margin: 14px 12px;">
+      <view class="page_notice_list" wx:for="{{noticeList}}" wx:key="none">
+        <image src="../../../../images/star_icon.png" style="width: 20px;height: 20px;"></image>
+        <text style="width: 90%;white-space: pre-wrap; font-size: 14px;">{{item}}</text>
+      </view>
+
+    </view>
+  </view>
+  <view style="width: 100%;background-color: #f6f6f6;height: 8px;margin-top: 3px;"></view>
+  <view class="page_content_option">
+    <van-grid clickable column-num="1" class="index-grids" center="{{false}}" direction="horizontal">
+      <van-grid-item use-slot wx:for="{{routers}}" wx:key="name" link-type="navigateTo" url="{{item.url}}">
+        <!-- 自定义九宫格的样式 -->
+        <view style="width: 100px;margin-left: 40px;">
+          <view class="index-grid__icon">
+            <image src=" {{item.icon}}" mode="scaleToFill" />
+          </view>
+          <text class="index-grid__label">{{item.name}}</text>
+        </view>
+        <text style="font-size: 13px;text-align: center;margin:auto 5px auto 40px;">已使用</text>
+        <van-circle style="margin-left: 2px;"color="#ff4d4d" layer-color="cornflowerblue" value="{{ 50 }}" stroke-width="2" size="60">
+          <text style="font-size: 12px;">200/200</text>
+        </van-circle>
+        <!-- <text class="index_grid_surplusText">剩余100/共200</text> -->
+      </van-grid-item>
+    </van-grid>
+  </view>
+</view>

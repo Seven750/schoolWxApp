@@ -1,0 +1,61 @@
+/* pages/indexPages/reservationService/index/index.wxss */
+
+.page{
+  background-color: #ffffff;
+}
+
+
+.page_notice{
+  background-color: #ffffff;
+  width: 90%;
+  display: flex;
+  margin: 30px auto 24px auto;
+  border-radius: 8%;
+  overflow: hidden;
+  border: 1px;
+  border-color: #36a1f8;
+  box-shadow: rgb(192, 192, 192) 2px 2px 3px 1px ;
+  flex-direction: column;
+}
+
+.page_notice_list{
+  width: 100%;
+  display: flex;
+  flex-direction: row; 
+  margin-top: 2px;
+}
+.index-grid__icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+}
+.index-grid__icon image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.index-grid__icon + .index-grid__label {
+  margin-top: 5px;
+}
+.index-grid__label {
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  color: #333232;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.index_grid_surplusText{
+  text-align: center;
+  margin: auto;
+  margin-left: 50px;
+  width: 130px;
+  text-align: left;
+  font-weight: normal;
+  color: #333232;
+  font-size: 13px;
+}
+

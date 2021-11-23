@@ -30,7 +30,7 @@ Page({
       },
       {
         name: '预约系统',
-        url: '',
+        url: '../indexPages/reservationService/index/index',
         icon: '../../images/order-icon.png'
       },
        {
@@ -105,16 +105,16 @@ Page({
           inputShowed: false
       });
   },
-  clearInput: function () {
-      this.setData({
-          inputVal: ""
-      });
-  },
-  inputTyping: function (e) {
-      this.setData({
-          inputVal: e.detail.value
-      });
-  },
+  // clearInput: function () {
+  //     this.setData({
+  //         inputVal: ""
+  //     });
+  // },
+  // inputTyping: function (e) {
+  //     this.setData({
+  //         inputVal: e.detail.value
+  //     });
+  // },
   onChange(event) {
     wx.showToast({
       title: `点击标签 ${event.detail + 1}`,
