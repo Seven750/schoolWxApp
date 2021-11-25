@@ -48,6 +48,7 @@ Page({
         }
       }
     }).then(res =>{
+      console.log(res)
       let active = 0;
       if (res.result.data[0].fix_Status > 0) {
         active = 2;
@@ -149,8 +150,8 @@ Page({
           title: '接单成功',
         })
         // that.backBtnClick();
-        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
-        let options={id:res._id}
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', that.data.fixInformationList._id)
+        let options={id:that.data.fixInformationList._id}
         that.onLoad(options)
       },
       fail: err => {
